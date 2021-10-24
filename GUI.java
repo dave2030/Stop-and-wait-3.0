@@ -7,16 +7,50 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class GUI extends JFrame {
+    private final Handler handler;
 
     public GUI() {
         setTitle("CP372 A02");
+        handler = new Handler();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 375, 450);
         setResizable(false);
         initComponents();
     }
 
+    private void btnReceiveHandler(ActionEvent e) {
+        // Check if we are currently receiving or not based on button
+        if (buttonReceive.getText().equals("RECEIVE")) {
+            try {
+                int receiverPort = Integer.parseInt(txtReceiverPort.getText());
+                int senderPort = Integer.parseInt(txtSenderPort.getText());
+                String address = txtSenderAddress.getText();
+                String outputFileName = txtOutputFileName.getText();
 
+
+                // Background process to start receiving so we don't block our GUI and its repainting
+                new SwingWorker<Void, Void>() {
+                    @Override
+                    public Void doInBackground() {
+                        try {
+                            handler.setInOrderPacketLabel(lblPacketsReceived); // Assign our JLabel to our ReceiverHandler to update it
+                            handler.startReceiving(address, senderPort, receiverPort, outputFileName);
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.execute();
+                buttonReceive.setText("TERMINATE");
+            } catch (NumberFormatException exception) {
+                JOptionPane.showMessageDialog(this, "Invalid port number(s), please enter a number", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            ///disconnect
+            handler.stopReceiving();
+            buttonReceive.setText("RECEIVE");
+        }
+    }
 
     private void initComponents() {
         panelParent = new JPanel();
