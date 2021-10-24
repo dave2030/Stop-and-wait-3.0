@@ -131,6 +131,7 @@ public class GUI extends JFrame {
 
 
         buttonReceive = new JButton("RECEIVE");
+        buttonReceive.addActionListener(this::btnReceiveHandler);
         panelOtherComponents.add(buttonReceive, BorderLayout.EAST);
 
         panelInfo = new JPanel();
