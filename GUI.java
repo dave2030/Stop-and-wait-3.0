@@ -34,7 +34,7 @@ public class GUI extends JFrame {
                     public Void doInBackground() {
                         try {
                             handler.setInOrderPacketLabel(lblPacketsReceived); // Assign our JLabel to our ReceiverHandler to update it
-                            handler.startReceiving(address, senderPort, receiverPort, outputFileName);
+                            handler.startReceiving(address, senderPort, receiverPort, outputFileName, true);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }

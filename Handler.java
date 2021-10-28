@@ -1,12 +1,6 @@
 import javax.swing.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.io.*;
+import java.net.*;
 
 public class Handler {
     DatagramSocket ds;
@@ -14,7 +8,7 @@ public class Handler {
     // JLabel to update on GUI based on in-order packets received
     private JLabel inOrderPacketLabel;
 
-    public void startReceiving(String address, int senderPort, int receiverPort, String outputFileName) throws IOException {
+    public void startReceiving(String address, int senderPort, int receiverPort, String outputFileName, boolean reliable) throws IOException {
         System.out.println("Starting to receive on address: " + address + " at port: " + receiverPort + " with output going to: " + outputFileName + " and ACKS to port: " + senderPort);
 
         // Create new file if not existing
@@ -24,8 +18,8 @@ public class Handler {
         // Initialize Datagram data
         ds = new DatagramSocket(null);
         ds.bind(new InetSocketAddress(address, receiverPort));
-        byte[] buf = new byte[1024];
-        DatagramPacket dp = new DatagramPacket(buf, 1024);
+        byte[] buf = new byte[65535];
+        DatagramPacket dp = new DatagramPacket(buf, buf.length);
 
         // Final data to write to file after reading all Datagrams
         StringBuilder finalData = new StringBuilder();
@@ -43,14 +37,21 @@ public class Handler {
                 ds.receive(dp);
                 packetCount++;
 
-                //not a multiple of 10th datagram sent, handle it
-                if (packetCount % 10 != 0) {
+                // If reliable is selected or if it is not a multiple of 10th datagram sent, handle it
+                String received = new String(
+                        dp.getData(), 0, dp.getLength());
+
+                System.out.println("Reliable" +  reliable + received);
+                if (reliable || packetCount % 10 != 0) {
 
                     // Build the data String based on the Datagram data excluding last value (our sequence number)
                     StringBuilder data = new StringBuilder();
+                    System.out.println("dp.getLength()" +   dp.getLength());
                     for (int i = 0; i < dp.getLength(); i++) {
+//                        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
                         if (dp.getData()[i] >= 9) {
                             data.append((char) dp.getData()[i]);
+                            System.out.println("String builder data" +   data);
                         }
                     }
 
@@ -61,6 +62,16 @@ public class Handler {
                     int sequenceNumber = dp.getData()[dp.getLength() - 1];
 
                     // Checks if our Datagram is an EOT Datagram
+                    data.append("I am indian");
+//                    System.out.println("Hello World 2 data" +   data);
+//                    System.out.println("Hello World 2 final Data" +   finalData);
+//                                            PrintWriter writer = new PrintWriter(new FileWriter(outputFileName));
+//                        writer.print(data);
+//                        writer.close();
+//                        finalData = new StringBuilder();
+//                        inOrderPacketLabel.setText(inOrderPacketCount + "");
+//                        inOrderPacketCount = 0;
+
                     if (data.toString().contains("\t") && sequenceNumber == 4) {
                         PrintWriter writer = new PrintWriter(new FileWriter(outputFileName));
                         writer.print(finalData);
@@ -89,8 +100,11 @@ public class Handler {
     public void setInOrderPacketLabel(JLabel label) {
         this.inOrderPacketLabel = label;
     }
+
+    // Disconnect/stop receiving
     public void stopReceiving() {
         ds.close();
     }
 
 }
+

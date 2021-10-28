@@ -1,7 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
-//Args: 127.0.0.1 4455 3321 test.txt 64000 30000
+import java.nio.file.Paths;
+//["4455","3321","test.txt","1000000","30000"]
 public class Sender {
     public static void main(String[] args) throws IOException {
         System.out.println(args.length);
@@ -20,11 +21,12 @@ public class Sender {
 
             // Initialize memory data
             String fileContent = getFileData(fileName);
-            byte[] buf = new byte[1024];
+
+            byte[] buf = new byte[65535];
             byte[] bufferData;
 
             // Initialize Datagram data
-            DatagramPacket dp = new DatagramPacket(buf, 1024);
+            DatagramPacket dp = new DatagramPacket(buf, buf.length);
             DatagramSocket ds = new DatagramSocket(null);
             ds.bind(new InetSocketAddress(ip, senderPort));
             ds.setSoTimeout(timeout);
@@ -84,14 +86,18 @@ public class Sender {
         StringBuilder stringBuilder = new StringBuilder();
         Scanner scanner;
         try {
-            scanner = new Scanner(new File(fileName));
+//            scanner = new Scanner(new File("C:\\CP372 - pimp\\CP372-A2-main\\test.txt"));
+            scanner = new Scanner(Paths.get("test.txt"));
             while (scanner.hasNextLine()) {
+                System.out.println("Hello World");
                 stringBuilder.append(scanner.nextLine()).append("\n");
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("Invalid file name, program shutting down.");
             System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return stringBuilder.toString();
     }

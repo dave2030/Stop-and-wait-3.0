@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f38c8268-3eaa-4052-8e1c-d216cc4d7a4d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Handler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/GUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/Handler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/Sender.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/Sender.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,5 +85,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
