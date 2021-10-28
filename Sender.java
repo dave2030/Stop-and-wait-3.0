@@ -24,7 +24,7 @@ public class Sender {
             String fileContent = getFileData(fileName);
 
             byte[] buf = new byte[65535];
-            byte[] bufferData;
+            byte[] bufferData = new byte[1];
 
             // Initialize Datagram data
             DatagramPacket dp = new DatagramPacket(buf, buf.length);
@@ -39,18 +39,12 @@ public class Sender {
             // Iterate amount of Datagrams to be sent + 1 extra for the EOT Datagram
             for (int i = 0; i < (fileContent.length() / maxDataSize) + 2; i++) {
                 // Check if we are on our last Datagram to send
-                if (i < (fileContent.length() / maxDataSize) + 1) {
-                    // Create byte array of data to store in Datagram
-                    bufferData = generateDatagramPacketBuffer(fileContent, maxDataSize, i);
-                } else {
-                    // Otherwise create of our EOT Datagram which is a tab character with sequence 4 to signal EOT
-                    bufferData = new byte[]{(byte) '\t', (byte) 4};
-                }
+                bufferData = verifyDatagram( fileContent, maxDataSize, i);
                 // Send data in DatagramPacket
                 System.out.print("Sending datagram");
                 ds.send(new DatagramPacket(bufferData, bufferData.length, InetAddress.getByName(ip), receiverPort));
                 // Wait for ACK response and re-send packet if timed out
-                i = ReSendPacket(ds,dp,i);
+                i = reSendPacket(ds,dp,i);
             }
 
             System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startTime) + "ms.");
@@ -61,7 +55,20 @@ public class Sender {
         }
     }
 
-    public static Integer ReSendPacket(DatagramSocket ds, DatagramPacket dp, Integer i  ) {
+    public static byte[] verifyDatagram( String fileContent , Integer maxDataSize, Integer i ) {
+        byte[] bufferData;
+        if (i < (fileContent.length() / maxDataSize) + 1) {
+            // Create byte array of data to store in Datagram
+            bufferData = generateDatagramPacketBuffer(fileContent, maxDataSize, i);
+        } else {
+            // Otherwise create of our EOT Datagram which is a tab character with sequence 4 to signal EOT
+            bufferData = new byte[]{(byte) '\t', (byte) 4};
+        }
+        return bufferData;
+    }
+
+
+    public static Integer reSendPacket(DatagramSocket ds, DatagramPacket dp, Integer i  ) {
         try {
             System.out.println("i is" + i);
             System.out.print(" and awaiting ACK... ");
