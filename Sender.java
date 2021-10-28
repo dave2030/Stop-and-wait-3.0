@@ -3,6 +3,7 @@ import java.net.*;
 import java.util.Scanner;
 import java.nio.file.Paths;
 //["4455","3321","test.txt","1000000","30000"]
+//netstat -aon | find /i "listening"
 public class Sender {
     public static void main(String[] args) throws IOException {
         System.out.println(args.length);
@@ -49,30 +50,9 @@ public class Sender {
                 System.out.print("Sending datagram");
                 ds.send(new DatagramPacket(bufferData, bufferData.length, InetAddress.getByName(ip), receiverPort));
                 // Wait for ACK response and re-send packet if timed out
-                try {
-                    System.out.print(" and awaiting ACK... ");
-                    ds.receive(dp); // Blocking call until data is received, if longer than timeout the error is thrown and we catch it
-                    int ackReceived = -1;
-
-                    // Get data and pull the last value which is the ID of the ACK
-                    for (byte b : dp.getData()) {
-                        String letter = String.valueOf((char) b);
-                        if (letter.equals("0") || letter.equals("1") || letter.equals("4"))
-                            ackReceived = Integer.parseInt(letter);
-                    }
-                    // If the incoming ACK is not the correct sequence response, re-send the datagram
-                    if (ackReceived != i % 2 && ackReceived != 4) {
-                        System.out.println("- Invalid ACK, re-sending previous datagram");
-                        i--;
-                    } else {
-                        System.out.println("- Valid ACK received");
-
-                    }
-                } catch (SocketTimeoutException exception) { // If response times out, re-send the datagram
-                    System.out.println("- ACK timed out, re-sending previous datagram");
-                    i--;
-                }
+                i = ReSendPacket(ds,dp,i);
             }
+
             System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startTime) + "ms.");
             ds.close();
         } catch (NumberFormatException exception) {
@@ -81,12 +61,44 @@ public class Sender {
         }
     }
 
+    public static Integer ReSendPacket(DatagramSocket ds, DatagramPacket dp, Integer i  ) {
+        try {
+            System.out.println("i is" + i);
+            System.out.print(" and awaiting ACK... ");
+            ds.receive(dp); // Blocking call until data is received, if longer than timeout the error is thrown and we catch it
+            int ackReceived = -1;
+
+            // Get data and pull the last value which is the ID of the ACK
+            for (byte b : dp.getData()) {
+                String letter = String.valueOf((char) b);
+                if (letter.equals("0") || letter.equals("1") || letter.equals("4"))
+                    ackReceived = Integer.parseInt(letter);
+            }
+            // If the incoming ACK is not the correct sequence response, re-send the datagram
+            if (ackReceived != i % 2 && ackReceived != 4) {
+                System.out.println("- Invalid ACK, re-sending previous datagram");
+                i = i-1;
+            } else {
+                System.out.println("- Valid ACK received");
+
+            }
+
+        } catch (SocketTimeoutException exception) { // If response times out, re-send the datagram
+            System.out.println("- ACK timed out, re-sending previous datagram");
+            i = i - 1;
+        } catch (IOException e) {
+            i = i - 1;
+            e.printStackTrace();
+            System.exit(0);
+        }
+       return i;
+    }
     // Read data from file and store it in a string as is
     public static String getFileData(String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         Scanner scanner;
         try {
-//            scanner = new Scanner(new File("C:\\CP372 - pimp\\CP372-A2-main\\test.txt"));
+
             scanner = new Scanner(Paths.get("test.txt"));
             while (scanner.hasNextLine()) {
                 System.out.println("Hello World");

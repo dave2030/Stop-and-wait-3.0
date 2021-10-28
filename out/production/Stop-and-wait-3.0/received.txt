@@ -1,1 +1,20 @@
+When Receiver starts the user has chance to enter IP address of the Sender, port number used by the
+Sender to receive ACKs (3321 in the example above), port number used by the Receiver to receive data
+(4455 in the example above), name for the file to store the data (for example, received.txt), and hit
+the RECEIVE button.
+Sender will open the file (test.txt in the example above) and send its content in the series of
+datagrams, each containing piece of file data (no more than MDS bytes) and a sequence number (0 or 1).
+Sender will also send special EOT (End Of Transmission) datagram (content of EOT datagram to be
+defined by you). Receiver will acknowledge every received datagram and save the data extracted from
+datagrams in a file (for example, received.txt), using sequence numbers for proper reconstruction
+of the content of the file. File is delivered with no losses if it is an exact copy of the original file (so the
+content of test.txt and recieved.txt is the same). At the end of transmission (when EOT is
+acknowledged) the Sender will print the Total-Transmission-Time in seconds.
+The reliable/unreliable mode of the Receiver is used to simulate packet losses: if the Receivers mode
+is unreliable  the receiver will drop every 10 th packet without sending acknowledgement for it, and
+without buffering the content of the packet. This will force the Sender to retransmit it after timeout.
+Note, that ACKs sent by the Receiver do not require the simulation of losses. Also note, that losses can
+happen even in reliable mode due to the nature of UDP protocol, but they are very unlikely, that is
+why the simulation of losses is required
+	
 	
