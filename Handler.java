@@ -8,6 +8,28 @@ public class Handler {
     // JLabel to update on GUI based on in-order packets received
     private JLabel inOrderPacketLabel;
 
+    public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
+                                      String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
+        if (data.toString().contains("\t") && sequenceNumber == 4) {
+            PrintWriter writer = null;
+            try {
+                writer = new PrintWriter(new FileWriter(outputFileName));
+                writer.print(finalData);
+                writer.close();
+
+                inOrderPacketLabel.setText(inOrderPacketCount + "");
+                inOrderPacketCount = 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // Otherwise just update variables
+            inOrderPacketCount = inOrderPacketCount + 1;
+            inOrderPacketLabel.setText(inOrderPacketCount + "");
+        }
+        return inOrderPacketCount;
+    }
     public void startReceiving(String address, int senderPort, int receiverPort, String outputFileName, boolean reliable) throws IOException {
         System.out.println("Starting to receive on address: " + address + " at port: " + receiverPort + " with output going to: " + outputFileName + " and ACKS to port: " + senderPort);
 
@@ -62,28 +84,7 @@ public class Handler {
                     int sequenceNumber = dp.getData()[dp.getLength() - 1];
 
                     // Checks if our Datagram is an EOT Datagram
-                    data.append("I am indian");
-//                    System.out.println("Hello World 2 data" +   data);
-//                    System.out.println("Hello World 2 final Data" +   finalData);
-//                                            PrintWriter writer = new PrintWriter(new FileWriter(outputFileName));
-//                        writer.print(data);
-//                        writer.close();
-//                        finalData = new StringBuilder();
-//                        inOrderPacketLabel.setText(inOrderPacketCount + "");
-//                        inOrderPacketCount = 0;
-
-                    if (data.toString().contains("\t") && sequenceNumber == 4) {
-                        PrintWriter writer = new PrintWriter(new FileWriter(outputFileName));
-                        writer.print(finalData);
-                        writer.close();
-                        finalData = new StringBuilder();
-                        inOrderPacketLabel.setText(inOrderPacketCount + "");
-                        inOrderPacketCount = 0;
-                    } else {
-                        // Otherwise just update variables
-                        inOrderPacketCount++;
-                        inOrderPacketLabel.setText(inOrderPacketCount + "");
-                    }
+                    inOrderPacketCount =  verifyDatagram(data, sequenceNumber, finalData,  outputFileName, inOrderPacketCount, inOrderPacketLabel);
 
                     // Send back an acknowledgement to our Sender which data was received
                     String ack = "ACK " + sequenceNumber;
