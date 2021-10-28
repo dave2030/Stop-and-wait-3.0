@@ -7,7 +7,18 @@ public class Handler {
 
     // JLabel to update on GUI based on in-order packets received
     private JLabel inOrderPacketLabel;
-
+    public static StringBuilder buildString (DatagramPacket dp){
+        StringBuilder data = new StringBuilder();
+        System.out.println("dp.getLength()" +   dp.getLength());
+        for (int i = 0; i < dp.getLength(); i++) {
+//                        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
+            if (dp.getData()[i] >= 9) {
+                data.append((char) dp.getData()[i]);
+                System.out.println("String builder data" +   data);
+            }
+        }
+        return data;
+    }
     public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
                                       String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
         if (data.toString().contains("\t") && sequenceNumber == 4) {
@@ -32,7 +43,7 @@ public class Handler {
     }
     public void startReceiving(String address, int senderPort, int receiverPort, String outputFileName, boolean reliable) throws IOException {
         System.out.println("Starting to receive on address: " + address + " at port: " + receiverPort + " with output going to: " + outputFileName + " and ACKS to port: " + senderPort);
-
+        StringBuilder data;
         // Create new file if not existing
         if (new File(outputFileName).createNewFile()) {
             System.out.println("File not found, created.");
@@ -66,16 +77,7 @@ public class Handler {
                 System.out.println("Reliable" +  reliable + received);
                 if (reliable || packetCount % 10 != 0) {
 
-                    // Build the data String based on the Datagram data excluding last value (our sequence number)
-                    StringBuilder data = new StringBuilder();
-                    System.out.println("dp.getLength()" +   dp.getLength());
-                    for (int i = 0; i < dp.getLength(); i++) {
-//                        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
-                        if (dp.getData()[i] >= 9) {
-                            data.append((char) dp.getData()[i]);
-                            System.out.println("String builder data" +   data);
-                        }
-                    }
+                    data = buildString(dp);
 
                     // Add to our final data we will be writing
                     finalData.append(data.toString());
