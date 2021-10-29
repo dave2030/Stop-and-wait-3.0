@@ -55,6 +55,7 @@ public class Handler {
                 }
                 //Reminder: Based on the assignment's pdf, Sender will drop every 10th packet without setting it if it is unreliable
             } catch (IOException exception) {
+                //If there is a failure in reading/writing
                 break;
             }
         }
@@ -96,6 +97,7 @@ public class Handler {
                 //Reset packet count
                 inOrderPacketCount = 0;
             } catch (IOException e) {
+                //If there is a failure in writing
                 e.printStackTrace();
             }
 
