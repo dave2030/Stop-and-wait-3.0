@@ -52,6 +52,7 @@ public class Sender {
             System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startTime) + "ms.");
             ds.close();
         } catch (NumberFormatException exception) {
+            //When converting a string with improper format into a numeric.
             System.out.println("Invalid arguments, program shutting down.");
             System.exit(0);
         }
@@ -69,10 +70,12 @@ public class Sender {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
+            //File not found 
             System.out.println("Invalid file name, program shutting down.");
             System.exit(0);
         } catch (IOException e) {
-            e.printStackTrace();
+          // When failing to read / write to file
+             e.printStackTrace();
         }
         return stringBuilder.toString();
     }
@@ -126,10 +129,12 @@ public class Sender {
 
             }
 
-        } catch (SocketTimeoutException exception) { // If response times out, re-send the datagram
+        } catch (SocketTimeoutException exception) { 
+            // When response times out, re-send the datagram
             System.out.println("- ACK timed out, re-sending previous datagram");
             i = i - 1;
         } catch (IOException e) {
+            //When failing to read / write to file
             i = i - 1;
             e.printStackTrace();
             System.exit(0);
