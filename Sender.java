@@ -56,7 +56,38 @@ public class Sender {
             System.exit(0);
         }
     }
-     
+
+    // Read data from file stored in command line arguments and store it in strinb builder
+    public static String getFileData(String fileName) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Scanner scanner;
+        try {
+            scanner = new Scanner(Paths.get("test.txt"));
+            while (scanner.hasNextLine()) {
+                System.out.println("Hello World");
+                stringBuilder.append(scanner.nextLine()).append("\n");
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Invalid file name, program shutting down.");
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    // COMEBACK Create byte size data depending on index of packet to be sent
+    public static byte[] generateDatagramPacketBuffer(String data, int maxSize, int packetIndex) {
+        byte[] bufferData = new byte[maxSize + 1];
+        int endIndex = packetIndex == data.length() / maxSize ? data.length() : maxSize * (packetIndex + 1);
+        for (int index = maxSize * packetIndex; index < endIndex; index++) {
+            bufferData[maxSize + index - endIndex] = (byte) data.charAt(index);
+        }
+        bufferData[maxSize] = (byte) (packetIndex % 2);
+        return bufferData;
+    }
+
     // Verify what type of datagram it is; i.s is it an EOT?
     public static byte[] verifyDatagram( String fileContent , Integer maxDataSize, Integer i ) {
         byte[] bufferData;
@@ -104,37 +135,6 @@ public class Sender {
             System.exit(0);
         }
        return i;
-    }
-    
-    // Read data from file stored in command line arguments and store it in strinb builder
-    public static String getFileData(String fileName) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Scanner scanner;
-        try {
-            scanner = new Scanner(Paths.get("test.txt"));
-            while (scanner.hasNextLine()) {
-                System.out.println("Hello World");
-                stringBuilder.append(scanner.nextLine()).append("\n");
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Invalid file name, program shutting down.");
-            System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
-    }
-
-    // COMEBACK Create byte size data depending on index of packet to be sent
-    public static byte[] generateDatagramPacketBuffer(String data, int maxSize, int packetIndex) {
-        byte[] bufferData = new byte[maxSize + 1];
-        int endIndex = packetIndex == data.length() / maxSize ? data.length() : maxSize * (packetIndex + 1);
-        for (int index = maxSize * packetIndex; index < endIndex; index++) {
-            bufferData[maxSize + index - endIndex] = (byte) data.charAt(index);
-        }
-        bufferData[maxSize] = (byte) (packetIndex % 2);
-        return bufferData;
     }
 
 }

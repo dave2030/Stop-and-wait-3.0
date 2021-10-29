@@ -3,51 +3,8 @@ import java.io.*;
 import java.net.*;
 
 public class Handler {
-    DatagramSocket ds;
-
-    // JLabel to update on GUI based on in-order packets received
     private JLabel inOrderPacketLabel;
-    
-    //Build string based on packets
-    public static StringBuilder buildString (DatagramPacket dp){
-        StringBuilder data = new StringBuilder();
-        System.out.println("dp.getLength()" +   dp.getLength());
-        for (int i = 0; i < dp.getLength(); i++) {
-//        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
-            if (dp.getData()[i] >= 9) {
-                data.append((char) dp.getData()[i]);
-                System.out.println("String builder data" +   data);
-            }
-        }
-        return data;
-    }
-    //Verify if EOT datagram or not / Write to received.txt
-    public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
-                                      String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
-        //if EOT Datagram
-        //Check for EOT char (m) with a sequence number  of 1
-        if (data.toString().contains("m") && sequenceNumber == 1) {
-            PrintWriter writer = null;
-            try {
-                //Write to output file
-                writer = new PrintWriter(new FileWriter(outputFileName));
-                writer.print(finalData);
-                //Closed print writer to avoid resource leaks
-                writer.close();
-                inOrderPacketLabel.setText(inOrderPacketCount + "");
-                //Reset packet count
-                inOrderPacketCount = 0;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            // If it is NOT an EOT Datagram
-            inOrderPacketCount = inOrderPacketCount + 1;
-            inOrderPacketLabel.setText(inOrderPacketCount + "");
-        }
-        return inOrderPacketCount;
-    }
+    DatagramSocket ds;
     
     public void startReceiving(String address, int senderPort, int receiverPort, String outputFileName, boolean reliable) throws IOException {
         System.out.println("Starting to receive on address: " + address + " at port: " + receiverPort + " with output going to: " + outputFileName + " and ACKS to port: " + senderPort);
@@ -62,7 +19,7 @@ public class Handler {
         byte[] buf = new byte[65535];
         DatagramPacket dp = new DatagramPacket(buf, buf.length);
 
-        // COMEBACK Final data to write to file after reading all Datagrams
+        //Final string to write to received.txt file after reading all datagrams from Sender
         StringBuilder finalData = new StringBuilder();
 
         // COMEBACK Used for dropping each 10th packet in unreliable mode and counting packets in-order and received
@@ -103,15 +60,58 @@ public class Handler {
         }
     }
 
+    // Disconnect
+    public void stopReceiving() {
+        ds.close();
+    }
+
+    //Build string based on packets
+    public static StringBuilder buildString (DatagramPacket dp){
+        StringBuilder data = new StringBuilder();
+        System.out.println("dp.getLength()" +   dp.getLength());
+        for (int i = 0; i < dp.getLength(); i++) {
+//        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
+            if (dp.getData()[i] >= 9) {
+                data.append((char) dp.getData()[i]);
+                System.out.println("String builder data" +   data);
+            }
+        }
+        return data;
+    }
+
+    //Verify if EOT datagram or not / Write to received.txt
+    public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
+                                         String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
+        //if EOT Datagram
+        //Check for EOT char (m) with a sequence number  of 1
+        if (data.toString().contains("m") && sequenceNumber == 1) {
+            PrintWriter writer = null;
+            try {
+                //Write to output file
+                writer = new PrintWriter(new FileWriter(outputFileName));
+                writer.print(finalData);
+                //Closed print writer to avoid resource leaks
+                writer.close();
+                inOrderPacketLabel.setText(inOrderPacketCount + "");
+                //Reset packet count
+                inOrderPacketCount = 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // If it is NOT an EOT Datagram
+            inOrderPacketCount = inOrderPacketCount + 1;
+            inOrderPacketLabel.setText(inOrderPacketCount + "");
+        }
+        return inOrderPacketCount;
+    }
+
     // Assign JLabel after GUI
     public void setInOrderPacketLabel(JLabel label) {
         this.inOrderPacketLabel = label;
     }
 
-    // Disconnect
-    public void stopReceiving() {
-        ds.close();
-    }
 
 }
 
