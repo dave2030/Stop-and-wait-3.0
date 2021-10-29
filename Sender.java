@@ -99,8 +99,8 @@ public class Sender {
             bufferData = generateDatagramPacketBuffer(fileContent, maxDataSize, i);
         } else {
 
-            // Generate EOT Datagram with a char of m & a sequence number of 1
-            bufferData = new byte[]{(byte) 'm', (byte) 1};
+            // Generate EOT Datagram with a char of m & a sequence number of 3
+            bufferData = new byte[]{(byte) 'm', (byte) 3};
         }
         return bufferData;
     }
@@ -116,12 +116,12 @@ public class Sender {
             // Get the ID of the ACK
             for (byte b : dp.getData()) {
                 String letter = String.valueOf((char) b);
-                if (letter.equals("0") || letter.equals("1") || letter.equals("4"))
+                if (letter.equals("0") || letter.equals("1") || letter.equals("3"))
                     ackReceived = Integer.parseInt(letter);
             }
             
             // If the ACK response is invalid, resend the datagram again
-            if (ackReceived != i % 2 && ackReceived != 4) {
+            if (ackReceived != i % 2 && ackReceived != 3) {
                 System.out.println("- Invalid ACK, re-sending previous datagram");
                 i = i-1;
             } else {

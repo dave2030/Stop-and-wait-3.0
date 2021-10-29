@@ -84,8 +84,8 @@ public class Handler {
     public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
                                          String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
         //if EOT Datagram
-        //Check for EOT char (m) with a sequence number  of 1
-        if (data.toString().contains("m") && sequenceNumber == 1) {
+        //Check for EOT char (m) with a sequence number of 3
+        if (data.toString().contains("m") && sequenceNumber == 3) {
             PrintWriter writer = null;
             try {
                 //Write to output file
