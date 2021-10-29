@@ -17,4 +17,4 @@ Note, that ACKs sent by the Receiver do not require the simulation of losses. Al
 happen even in reliable mode due to the nature of UDP protocol, but they are very unlikely, that is
 why the simulation of losses is required
 	
-	
+m

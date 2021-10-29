@@ -64,9 +64,9 @@ public class Sender {
             //NOT an EOT - create byte array of data to store in Datagram
             bufferData = generateDatagramPacketBuffer(fileContent, maxDataSize, i);
         } else {
-             //Come back
-            // Create an EOT Datagram that has a tab character with a sequence of 4 to signal EOT
-            bufferData = new byte[]{(byte) '\t', (byte) 4};
+
+            // Generate EOT Datagram with a char of m & a sequence number of 1
+            bufferData = new byte[]{(byte) 'm', (byte) 1};
         }
         return bufferData;
     }

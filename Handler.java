@@ -13,7 +13,7 @@ public class Handler {
         StringBuilder data = new StringBuilder();
         System.out.println("dp.getLength()" +   dp.getLength());
         for (int i = 0; i < dp.getLength(); i++) {
-//                        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
+//        System.out.println("dp.getData()[i]" +   dp.getData()[i]);
             if (dp.getData()[i] >= 9) {
                 data.append((char) dp.getData()[i]);
                 System.out.println("String builder data" +   data);
@@ -21,12 +21,12 @@ public class Handler {
         }
         return data;
     }
-    //Verify if EOT datagram or not
+    //Verify if EOT datagram or not / Write to received.txt
     public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder finalData,
                                       String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
         //if EOT Datagram
-        //Check for tab char & sequence size of 4
-        if (data.toString().contains("\t") && sequenceNumber == 4) {  
+        //Check for EOT char (m) with a sequence number  of 1
+        if (data.toString().contains("m") && sequenceNumber == 1) {
             PrintWriter writer = null;
             try {
                 //Write to output file
@@ -56,7 +56,7 @@ public class Handler {
         if (new File(outputFileName).createNewFile()) {
             System.out.println("File not found, created.");
         }
-        // Initialize Datagram
+        // Initialize Datagram logic
         ds = new DatagramSocket(null);
         ds.bind(new InetSocketAddress(address, receiverPort));
         byte[] buf = new byte[65535];
@@ -67,29 +67,25 @@ public class Handler {
 
         // COMEBACK Used for dropping each 10th packet in unreliable mode and counting packets in-order and received
         int packetCount = 0;
+        //Count in order packets
         int inOrderPacketCount = 0;
 
         while (true) {
             try {
                 System.out.println("Awaiting data...");
 
-                //Start receiving dat
+                //Start receiving data
                 ds.receive(dp);
                 packetCount++;
 
-                // COMEBACK If reliable is selected or if it is not a multiple of 10th datagram sent, handle it
-                String received = new String(
-                        dp.getData(), 0, dp.getLength());
-
-                System.out.println("Reliable" +  reliable + received);
                 if (reliable || packetCount % 10 != 0) {
-                   //Build string based on datagram
+                   //Build string based on  received datagram
                     data = buildString(dp);
 
-                    // COMEBACK Add to our final data we will be writing
-                    finalData.append(data.toString());
+                    // String that will be used for writing to received.txt
+                    finalData.append(data);
 
-                    // COMEBACK Our sequence number to send back as an acknowledgement or read EOT
+                    //Sequence number will be 0 or 1 based on the assignment requirements. 1 will be E0T.
                     int sequenceNumber = dp.getData()[dp.getLength() - 1];
 
                     // Verify if packet is an EOT datagram or not
@@ -100,13 +96,14 @@ public class Handler {
                     System.out.println("Data received and sending ACK " + sequenceNumber);
                     ds.send(new DatagramPacket(ack.getBytes(), ack.getBytes().length, InetAddress.getByName(address), senderPort));
                 }
+                //Reminder: Based on the assignment's pdf, Sender will drop every 10th packet without setting it if it is unreliable
             } catch (IOException exception) {
                 break;
             }
         }
     }
 
-    // Assign JLabel after GUI i
+    // Assign JLabel after GUI
     public void setInOrderPacketLabel(JLabel label) {
         this.inOrderPacketLabel = label;
     }
