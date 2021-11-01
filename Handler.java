@@ -52,6 +52,8 @@ public class Handler {
                     String ack = "ACK " + sequenceNumber;
                     System.out.println("Data received and sending ACK " + sequenceNumber);
                     ds.send(new DatagramPacket(ack.getBytes(), ack.getBytes().length, InetAddress.getByName(address), senderPort));
+                } else {
+                    System.out.println("Not reliable - hanging until time out");
                 }
                 //Reminder: Based on the assignment's pdf, Sender will drop every 10th packet without setting it if it is unreliable
             } catch (IOException exception) {
