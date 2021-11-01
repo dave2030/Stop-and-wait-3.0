@@ -41,7 +41,7 @@ public class GUI extends JFrame {
                 }.execute();
                 bReceive.setText("TERMINATE");
             } catch (NumberFormatException exception) {
-                JOptionPane.showMessageDialog(this, "Invalid port number(s), please enter a number", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Invalid port #", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             hand.stopReceiving();
@@ -51,25 +51,26 @@ public class GUI extends JFrame {
 
     private void components() {
         par = new JPanel();
-        par.setBorder(new EmptyBorder(50, 50, 50, 50));
+        par.setBorder(new EmptyBorder(5, 5, 10, 10));
 
         setContentPane(par);
-        head = new JPanel();
-        par.add(head, BorderLayout.NORTH);
+        par.setLayout(new BorderLayout(0,0));
         par.setBackground(Color.BLACK);
-        head.setLayout(new BorderLayout(0, 0));
 
 
         pMain = new JPanel();
+        pMain.setBorder(new EmptyBorder(5, 5, 10, 10));
+
         par.add(pMain, BorderLayout.CENTER);
         pMain.setLayout(new BoxLayout(pMain, BoxLayout.Y_AXIS));
 
         pSendAddy = new JPanel();
-        pSendAddy.setBorder(new EmptyBorder(10, 15, 10, 15));
+        pSendAddy.setBorder(new EmptyBorder(11, 14, 9, 16));
         pMain.add(pSendAddy);
         pSendAddy.setLayout(new BorderLayout(0, 0));
 
         lSendAddy = new JLabel("IP Address of Receiver:");
+        lSendAddy.setFont(new Font("Serif", Font.PLAIN,20));
         lSendAddy.setBorder(new EmptyBorder(0, 0, 0, 0));
         pSendAddy.add(lSendAddy, BorderLayout.WEST);
 
@@ -79,11 +80,12 @@ public class GUI extends JFrame {
         tSendAddy.setColumns(10);
 
         pSendPort = new JPanel();
-        pSendPort.setBorder(new EmptyBorder(5, 15, 5, 15));
+        pSendPort.setBorder(new EmptyBorder(5, 14, 4, 16));
         pMain.add(pSendPort);
         pSendPort.setLayout(new BorderLayout(0, 0));
 
         lSendPort = new JLabel("UDP Sender Port:");
+        lSendPort.setFont(new Font("Serif", Font.PLAIN,20));
         lSendPort.setBorder(new EmptyBorder(0, 0, 0, 0));
         pSendPort.add(lSendPort, BorderLayout.WEST);
 
@@ -99,6 +101,7 @@ public class GUI extends JFrame {
 
         lReceiverPort = new JLabel("UDP Receiver Port:");
         lReceiverPort.setBorder(new EmptyBorder(0, 0, 0, 0));
+        lReceiverPort.setFont(new Font("Serif", Font.PLAIN,20));
         pReceiverPort.add(lReceiverPort, BorderLayout.WEST);
 
         tReceiverPort = new JTextField();
@@ -113,10 +116,11 @@ public class GUI extends JFrame {
 
         lOutFile = new JLabel("Output File To Be Transferred:");
         lOutFile.setBorder(new EmptyBorder(0, 0, 0, 0));
+        lOutFile.setFont(new Font("Serif", Font.PLAIN,20));
         pOutFile.add(lOutFile, BorderLayout.WEST);
 
         tOutFile = new JTextField();
-        tOutFile.setText("received.txt"); //TODO: REMOVE DEFAULT
+        tOutFile.setText("received.txt");
         tOutFile.setColumns(10);
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
@@ -135,6 +139,7 @@ public class GUI extends JFrame {
         pMain.add(pInfo);
 
         lInfo = new JLabel("Received in-order packets:");
+        lInfo.setFont(new Font("Serif", Font.PLAIN,20));
         pInfo.add(lInfo);
 
         lPacketReceive = new JLabel("0");
