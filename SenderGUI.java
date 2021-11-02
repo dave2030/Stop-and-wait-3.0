@@ -6,17 +6,18 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 
-public class GUI2 extends JFrame {
-    private final Handler hand;
+public class SenderGUI extends JFrame {
+    private final SenderHandler sendHand;
 
-    public GUI2() {
-        hand = new Handler();
+    public SenderGUI(String[] args) {
+        sendHand = new SenderHandler();
         setTitle("Stop and Wait 3.0");
         setBounds(200, 200, 400, 400);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         components();
     }
+
 
     private void bReceiveHandler(ActionEvent e) {
         if (bSend.getText().equals("SEND")) {
@@ -25,13 +26,13 @@ public class GUI2 extends JFrame {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
-
+                System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
 
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
                         try {
-                            hand.startReceiving(addy, receivinP, sendinP, out, true);
+                            sendHand.startSending(addy, sendinP, receivinP, out, true);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
@@ -43,7 +44,7 @@ public class GUI2 extends JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid port #", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-          //Fix  hand.stopReceiving();
+
             bSend.setText("SEND");
         }
     }

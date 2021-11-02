@@ -1,14 +1,15 @@
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-import java.nio.file.Paths;
 //["4455","3321","test.txt","1000000","30000"]
 //netstat -aon | find /i "listening"
 public class Sender {
     public static void main(String[] args) {
-        new GUI2();
+        new SenderGUI(args);
     }
 }
+
+
+
+//public class Sender {
+//    public static void main(String[] args) throws IOException {
 //        System.out.println(args.length);
 //        //We need to have 6 arguments based on the asignment's  PDF requirements
 //        if (args.length != 6) {
@@ -77,8 +78,8 @@ public class Sender {
 //            System.out.println("Invalid file name, program shutting down.");
 //            System.exit(0);
 //        } catch (IOException e) {
-//          // When failing to read / write to file
-//             e.printStackTrace();
+//            // When failing to read / write to file
+//            e.printStackTrace();
 //        }
 //        return stringBuilder.toString();
 //    }
@@ -108,7 +109,7 @@ public class Sender {
 //        return bufferData;
 //    }
 //
-//     //If we time out, we need to resend datagram
+//    //If we time out, we need to resend datagram
 //    public static Integer reSendPacket(DatagramSocket ds, DatagramPacket dp, Integer i  ) {
 //        try {
 //            System.out.println("i is" + i);
@@ -142,6 +143,8 @@ public class Sender {
 //            e.printStackTrace();
 //            System.exit(0);
 //        }
-//       return i;
+//        return i;
 //    }
+//
+//}
 

@@ -6,25 +6,44 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 
-public class GUI extends JFrame {
+public class ReceiverGUI extends JFrame {
     private final Handler hand;
+    String ip;
+    int receiverPort;
+    int senderPort;
+    String fileName;
+    int maxDataSize;
+    int timeout;
 
-    public GUI() {
+
+    public ReceiverGUI(String[] args) {
         hand = new Handler();
         setTitle("Stop and Wait 3.0");
         setBounds(200, 200, 400, 400);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         components();
+        if (args.length != 6) {
+            System.out.println("Incomplete arguments, program shutting down.");
+            System.exit(0);
+        }
+        ip = args[0];
+        receiverPort = Integer.parseInt(args[1]);
+        senderPort = Integer.parseInt(args[2]);
+        fileName = args[3];
+        maxDataSize = Integer.parseInt(args[4]);
+        timeout = Integer.parseInt(args[5]);
+
+
     }
 
     private void bReceiveHandler(ActionEvent e) {
         if (bReceive.getText().equals("RECEIVE")) {
             try {
-                int rPort = Integer.parseInt(tReceiverPort.getText());
-                int sPort = Integer.parseInt(tSendPort.getText());
-                String addy = tSendAddy.getText();
-                String out = tOutFile.getText();
+//                int rPort = Integer.parseInt(tReceiverPort.getText());
+//                int sPort = Integer.parseInt(tSendPort.getText());
+//                String addy = tSendAddy.getText();
+//                String out = tOutFile.getText();
 
 
                 new SwingWorker<Void, Void>() {
@@ -32,7 +51,8 @@ public class GUI extends JFrame {
                     public Void doInBackground() {
                         try {
                             hand.setInOrderPacketLabel(lPacketReceive);
-                            hand.startReceiving(addy, sPort, rPort, out, true);
+//                            hand.startReceiving(addy, sPort, rPort, out, true);
+                            hand.startReceiving(ip,senderPort, receiverPort, fileName, true);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
