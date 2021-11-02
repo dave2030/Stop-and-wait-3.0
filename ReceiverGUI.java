@@ -28,8 +28,8 @@ public class ReceiverGUI extends JFrame {
             System.exit(0);
         }
         ip = args[0];
-        receiverPort = Integer.parseInt(args[1]);
-        senderPort = Integer.parseInt(args[2]);
+        receiverPort = Integer.parseInt(args[2]);
+        senderPort = Integer.parseInt(args[1]);
         fileName = args[3];
         maxDataSize = Integer.parseInt(args[4]);
         timeout = Integer.parseInt(args[5]);

@@ -16,4 +16,7 @@ without buffering the content of the packet. This will force the Sender to retra
 Note, that ACKs sent by the Receiver do not require the simulation of losses. Also note, that losses can
 happen even in reliable mode due to the nature of UDP protocol, but they are very unlikely, that is
 why the simulation of losses is required
-	
+m
+m
+m
+m
