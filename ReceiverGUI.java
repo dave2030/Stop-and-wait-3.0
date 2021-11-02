@@ -89,60 +89,20 @@ public class ReceiverGUI extends JFrame {
         pMain.add(pSendAddy);
         pSendAddy.setLayout(new BorderLayout(0, 0));
 
-        lSendAddy = new JLabel("IP Address of Receiver:");
-        lSendAddy.setFont(new Font("Serif", Font.PLAIN,20));
-        lSendAddy.setBorder(new EmptyBorder(0, 0, 0, 0));
-        pSendAddy.add(lSendAddy, BorderLayout.WEST);
-
-        tSendAddy = new JTextField();
-        tSendAddy.setText("127.0.0.1");
-        pSendAddy.add(tSendAddy, BorderLayout.SOUTH);
-        tSendAddy.setColumns(10);
 
         pSendPort = new JPanel();
         pSendPort.setBorder(new EmptyBorder(5, 14, 4, 16));
         pMain.add(pSendPort);
         pSendPort.setLayout(new BorderLayout(0, 0));
 
-        lSendPort = new JLabel("UDP Sender Port:");
-        lSendPort.setFont(new Font("Serif", Font.PLAIN,20));
-        lSendPort.setBorder(new EmptyBorder(0, 0, 0, 0));
-        pSendPort.add(lSendPort, BorderLayout.WEST);
 
-        tSendPort = new JTextField();
-        tSendPort.setText("3321");
-        tSendPort.setColumns(10);
-        pSendPort.add(tSendPort, BorderLayout.SOUTH);
 
         pReceiverPort = new JPanel();
         pReceiverPort.setBorder(new EmptyBorder(5, 15, 5, 15));
         pMain.add(pReceiverPort);
         pReceiverPort.setLayout(new BorderLayout(0, 0));
 
-        lReceiverPort = new JLabel("UDP Receiver Port:");
-        lReceiverPort.setBorder(new EmptyBorder(0, 0, 0, 0));
-        lReceiverPort.setFont(new Font("Serif", Font.PLAIN,20));
-        pReceiverPort.add(lReceiverPort, BorderLayout.WEST);
 
-        tReceiverPort = new JTextField();
-        tReceiverPort.setText("4455");
-        tReceiverPort.setColumns(10);
-        pReceiverPort.add(tReceiverPort, BorderLayout.SOUTH);
-
-        pOutFile = new JPanel();
-        pOutFile.setBorder(new EmptyBorder(5, 15, 20, 15));
-        pMain.add(pOutFile);
-        pOutFile.setLayout(new BorderLayout(0, 0));
-
-        lOutFile = new JLabel("Output File To Be Transferred:");
-        lOutFile.setBorder(new EmptyBorder(0, 0, 0, 0));
-        lOutFile.setFont(new Font("Serif", Font.PLAIN,20));
-        pOutFile.add(lOutFile, BorderLayout.WEST);
-
-        tOutFile = new JTextField();
-        tOutFile.setText("received.txt");
-        tOutFile.setColumns(10);
-        pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
         pOtherC = new JPanel();
         pOtherC.setBorder(new EmptyBorder(10, 20, 10, 20));

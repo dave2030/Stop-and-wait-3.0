@@ -32,7 +32,7 @@ public class SenderGUI extends JFrame {
                     @Override
                     public Void doInBackground() {
                         try {
-                            sendHand.startSending(addy, sendinP, receivinP, out, true);
+                            sendHand.startSending(addy, receivinP, sendinP, out, true);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
