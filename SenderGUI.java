@@ -122,7 +122,7 @@ public class SenderGUI extends JFrame {
         pOutFile.add(lOutFile, BorderLayout.WEST);
 
         tOutFile = new JTextField();
-        tOutFile.setText("received.txt");
+        tOutFile.setText("test.txt");
         tOutFile.setColumns(10);
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 

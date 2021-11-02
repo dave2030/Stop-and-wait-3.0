@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f38c8268-3eaa-4052-8e1c-d216cc4d7a4d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GUI2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReceiverGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/ReceiverGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SenderGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/SenderGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/ReceiverGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/ReceiverGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/SenderGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/SenderGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,10 +43,11 @@
       <recent name="C:\CP372\Stop-and-wait-3.0" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Receiver">
+  <component name="RunManager" selected="Application.Sender">
     <configuration name="Receiver" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Receiver" />
       <module name="Stop-and-wait-3.0" />
+      <option name="PROGRAM_PARAMETERS" value="127.0.0.1 4455 3321 test.txt 64000 30000" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

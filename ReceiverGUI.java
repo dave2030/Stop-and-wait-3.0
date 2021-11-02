@@ -30,7 +30,7 @@ public class ReceiverGUI extends JFrame {
         ip = args[0];
         receiverPort = Integer.parseInt(args[2]);
         senderPort = Integer.parseInt(args[1]);
-        fileName = args[3];
+        fileName = "received.txt";
         maxDataSize = Integer.parseInt(args[4]);
         timeout = Integer.parseInt(args[5]);
 
