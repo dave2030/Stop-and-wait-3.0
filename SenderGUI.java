@@ -126,10 +126,16 @@ public class SenderGUI extends JFrame {
         tOutFile.setColumns(10);
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
+
+//        checkboxReliable = new JCheckBox("Reliable");
+//        checkboxReliable.setSelected(true);
+//        pOutFile.add(tOutFile, BorderLayout.SOUTH);
+
         pOtherC = new JPanel();
         pOtherC.setBorder(new EmptyBorder(10, 20, 10, 20));
         pMain.add(pOtherC);
         pOtherC.setLayout(new BorderLayout(0, 0));
+
 
 
 
@@ -160,6 +166,6 @@ public class SenderGUI extends JFrame {
     JPanel pReceiverPort;
     JLabel labSendPort;
     JTextField tranSenP;
-
+    JCheckBox checkboxReliable;
 
 }

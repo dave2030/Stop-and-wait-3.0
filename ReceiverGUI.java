@@ -33,9 +33,6 @@ public class ReceiverGUI extends JFrame {
         fileName = args[3];
         maxDataSize = Integer.parseInt(args[4]);
         timeout = Integer.parseInt(args[5]);
-        System.out.println("This is the fucker nad " + args[3]);
-
-
     }
 
     private void bReceiveHandler(ActionEvent e) {
@@ -119,7 +116,7 @@ public class ReceiverGUI extends JFrame {
         pInfo = new JPanel();
         pMain.add(pInfo);
 
-        lInfo = new JLabel("Received in-order packets:");
+        lInfo = new JLabel("Sent in-order packets:");
         lInfo.setFont(new Font("Serif", Font.PLAIN,20));
         pInfo.add(lInfo);
 
