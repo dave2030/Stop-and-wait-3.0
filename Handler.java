@@ -7,7 +7,7 @@ public class Handler {
     DatagramSocket datagramSocket;
     
     public  void startReceiving(String address, int senderPort, int receiverPort, String outputFileName, boolean reliable) throws IOException {
-        System.out.println("Starting to receive on address: " + address + " at port: " + receiverPort + " with output going to: " + outputFileName + " and ACKS to port: " + senderPort);
+        System.out.println("Address: " + address + " with receiver port: " + receiverPort + " and sender port of " + senderPort);
         StringBuilder data;
         // If it does not exist, we need to create a new file
         if (new File(outputFileName).createNewFile()) {
@@ -29,7 +29,7 @@ public class Handler {
 
         while (true) {
             try {
-                System.out.println("Awaiting data...");
+                System.out.println("------Waiting for data------");
 
                 //Start receiving data
                 datagramSocket.receive(datagramPocket);
@@ -50,7 +50,7 @@ public class Handler {
 
                     // Send ACK to Sender
                     String ackVal = "ACK " + sequenceNumber;
-                    System.out.println("Data received and sending ACK " + sequenceNumber);
+                    System.out.println("Data received from sender -------> Send ACK -------> " + sequenceNumber);
                     datagramSocket.send(new DatagramPacket(ackVal.getBytes(), ackVal.getBytes().length, InetAddress.getByName(address), senderPort));
                 } else {
                     System.out.println("Not reliable - hanging until time out");
@@ -71,12 +71,11 @@ public class Handler {
     //Build string based on packets
     public static StringBuilder buildDatagramString (DatagramPacket datagramPocket){
         StringBuilder finalBuiltString = new StringBuilder();
-        System.out.println("datagramPocket.getLength()" +   datagramPocket.getLength());
         for (int i = 0; i < datagramPocket.getLength(); i++) {
 //        System.out.println("datagramPocket.getData()[i]" +   datagramPocket.getData()[i]);
             if (datagramPocket.getData()[i] >= 9) {
                 finalBuiltString.append((char) datagramPocket.getData()[i]);
-                System.out.println("String builder data" +   finalBuiltString);
+
             }
         }
         return finalBuiltString;

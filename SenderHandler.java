@@ -23,27 +23,26 @@ public class SenderHandler {
             DatagramPacket datagramPacket = new DatagramPacket(buf, buf.length);
             datagramSocket.bind(new InetSocketAddress(ip, senderPort));
             datagramSocket.setSoTimeout(timeout);
-            System.out.println("Starting to send datagram from file " + fileName + " on address: " + ip + " at port: " + receiverPort + " while listening for ACKS at port: " + senderPort);
-
+            System.out.println("Filename:" + fileName + " is being sent on address of " + ip + " with receiver port: " + receiverPort + " and sender port of " + senderPort);
+            System.out.println("--------------------------------------------");
             // Start time and iteration of Datagrams
             long startingTime = System.currentTimeMillis();
             // Iterate amount of Datagrams to be sent + 1 extra for the EOT Datagram
             for (int i = 0; i < (contentsFromFile.length() / maxBytes) + 2; i++) {
                 // Verify what type of datagram it is; i.s is it an EOT?
                 bufData = verifyDatagram( contentsFromFile, maxBytes, i);
-
-                System.out.print("Sending datagram");
                 //Send datagram
                 datagramSocket.send(new DatagramPacket(bufData, bufData.length, InetAddress.getByName(ip), receiverPort));
+                System.out.print("Verified datagram and sending datagram");
                 // Now wait for ACK response. If we time out, we need to resend.
                 i = resendDatagramPacket(datagramSocket,datagramPacket,i);
             }
-            //Done, no longer need the socket, close or else file descriptors will be leaked
-            System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startingTime) + "ms.");
+            //Done
+            System.out.println("Finished. Time: " + (System.currentTimeMillis() - startingTime) + "ms.");
             datagramSocket.close();
         } catch (NumberFormatException exception) {
             //When converting a string with improper format into a numeric.
-            System.out.println("Invalid arguments, program shutting down.");
+            System.out.println("Insert the right amount of arguments");
             System.exit(0);
         }
 
@@ -57,16 +56,16 @@ public class SenderHandler {
         try {
             scanner = new Scanner(Paths.get("test.txt"));
             while (scanner.hasNextLine()) {
-                System.out.println("Hello World");
                 stringBuilder.append(scanner.nextLine()).append("\n");
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             //File not found
-            System.out.println("Invalid file name, program shutting down.");
+            System.out.println("File is not found.");
             System.exit(0);
         } catch (IOException e) {
           // When failing to read / write to file
+            System.out.println("Failed to read / write file");
              e.printStackTrace();
         }
         return stringBuilder.toString();
@@ -102,8 +101,7 @@ public class SenderHandler {
      //If we time out, we need to resend datagram
     public static Integer resendDatagramPacket(DatagramSocket datagramSocket, DatagramPacket datagramPacket, Integer i  ) {
         try {
-            System.out.println("i is" + i);
-            System.out.print(" and awaiting ACK... ");
+            System.out.print(" -----> waiting for ACK ");
             datagramSocket.receive(datagramPacket); // Start receiving data and wait for ACK.
             int valueOfAcks = -1;
 
@@ -116,19 +114,20 @@ public class SenderHandler {
 
             // If the ACK response is invalid, resend the datagram again
             if (valueOfAcks != i % 2 && valueOfAcks != 3) {
-                System.out.println("- Invalid ACK, re-sending previous datagram");
+                System.out.println("-----> ACK is invalid, re-sending prev datagram again");
                 i = i-1;
             } else {
-                System.out.println("- Valid ACK received");
+                System.out.println("-----> ACK received");
 
             }
 
         } catch (SocketTimeoutException exception) {
             // When response times out, re-send the datagram
-            System.out.println("- ACK timed out, re-sending previous datagram");
+            System.out.println("-----> ACK timed out, re-sending prev datagram again");
             i = i - 1;
         } catch (IOException e) {
             //When failing to read / write to file
+            System.out.println("-----> ACK timed out, failed to read / write to file");
             i = i - 1;
             e.printStackTrace();
             System.exit(0);
