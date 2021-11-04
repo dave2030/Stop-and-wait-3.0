@@ -25,7 +25,7 @@ public class Handler {
         // COMEBACK Used for dropping each 10th packet in unreliable mode and counting packets in-order and received
         int packetCount = 0;
         //Count in order packets
-        int inOrderPacketCount = 0;
+        int inOrderPacketAmount = 0;
 
         while (true) {
             try {
@@ -46,12 +46,12 @@ public class Handler {
                     int sequenceNumber = datagramPocket.getData()[datagramPocket.getLength() - 1];
 
                     // Verify if packet is an EOT datagram or not
-                    inOrderPacketCount =  verifyDatagram(data, sequenceNumber, builtStringFinal,  outputFileName, inOrderPacketCount, inOrderPacketLabel);
+                    inOrderPacketAmount =  verifyDatagram(data, sequenceNumber, builtStringFinal,  outputFileName, inOrderPacketAmount, inOrderPacketLabel);
 
                     // Send ACK to Sender
-                    String ack = "ACK " + sequenceNumber;
+                    String ackVal = "ACK " + sequenceNumber;
                     System.out.println("Data received and sending ACK " + sequenceNumber);
-                    datagramSocket.send(new DatagramPacket(ack.getBytes(), ack.getBytes().length, InetAddress.getByName(address), senderPort));
+                    datagramSocket.send(new DatagramPacket(ackVal.getBytes(), ackVal.getBytes().length, InetAddress.getByName(address), senderPort));
                 } else {
                     System.out.println("Not reliable - hanging until time out");
                 }
@@ -70,34 +70,34 @@ public class Handler {
 
     //Build string based on packets
     public static StringBuilder buildDatagramString (DatagramPacket datagramPocket){
-        StringBuilder data = new StringBuilder();
+        StringBuilder finalBuiltString = new StringBuilder();
         System.out.println("datagramPocket.getLength()" +   datagramPocket.getLength());
         for (int i = 0; i < datagramPocket.getLength(); i++) {
 //        System.out.println("datagramPocket.getData()[i]" +   datagramPocket.getData()[i]);
             if (datagramPocket.getData()[i] >= 9) {
-                data.append((char) datagramPocket.getData()[i]);
-                System.out.println("String builder data" +   data);
+                finalBuiltString.append((char) datagramPocket.getData()[i]);
+                System.out.println("String builder data" +   finalBuiltString);
             }
         }
-        return data;
+        return finalBuiltString;
     }
 
     //Verify if EOT datagram or not / Write to received.txt
     public static Integer verifyDatagram(StringBuilder data, Integer sequenceNumber,StringBuilder builtStringFinal,
-                                         String outputFileName, int inOrderPacketCount, JLabel inOrderPacketLabel  ){
+                                         String outputFileName, int inOrderPacketAmount, JLabel inOrderPacketLabel  ){
         //if EOT Datagram
         //Check for EOT char (m) with a sequence number of 3
         if (data.toString().contains("m") && sequenceNumber == 3) {
-            PrintWriter writer = null;
+            PrintWriter printWriter = null;
             try {
                 //Write to output file
-                writer = new PrintWriter(new FileWriter(outputFileName));
-                writer.print(builtStringFinal);
+                printWriter = new PrintWriter(new FileWriter(outputFileName));
+                printWriter.print(builtStringFinal);
                 //Closed print writer to avoid resource leaks
-                writer.close();
-                inOrderPacketLabel.setText(inOrderPacketCount + "");
+                printWriter.close();
+                inOrderPacketLabel.setText(inOrderPacketAmount + "");
                 //Reset packet count
-                inOrderPacketCount = 0;
+                inOrderPacketAmount = 0;
             } catch (IOException e) {
                 //If there is a failure in writing
                 e.printStackTrace();
@@ -105,10 +105,10 @@ public class Handler {
 
         } else {
             // If it is NOT an EOT Datagram
-            inOrderPacketCount = inOrderPacketCount + 1;
-            inOrderPacketLabel.setText(inOrderPacketCount + "");
+            inOrderPacketAmount = inOrderPacketAmount + 1;
+            inOrderPacketLabel.setText(inOrderPacketAmount + "");
         }
-        return inOrderPacketCount;
+        return inOrderPacketAmount;
     }
 
     // Assign JLabel after GUI
