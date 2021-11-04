@@ -23,7 +23,7 @@ public class ReceiverGUI extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         components();
-        if (args.length != 4) {
+        if (args.length < 4) {
             System.out.println("Incomplete arguments, program shutting down.");
             System.exit(0);
         }
