@@ -32,7 +32,9 @@ public class SenderGUI extends JFrame {
         }
     }
 
-
+    private void cReliable(ActionEvent e){
+        System.out.println("Do this");
+    }
 
     private void bSendHandler(ActionEvent e) {
         if (bSend.getText().equals("SEND")) {
@@ -148,10 +150,10 @@ public class SenderGUI extends JFrame {
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
 
-//        checkboxReliable = new JCheckBox("Reliable");
-//        checkboxReliable.setSelected(true);
-//        pOutFile.add(tOutFile, BorderLayout.SOUTH);
-
+        checkboxReliable = new JCheckBox("Reliable");
+        checkboxReliable.setSelected(true);
+        checkboxReliable.setBackground(Color.gray);
+        checkboxReliable.addActionListener(this::cReliable);
         pOtherC = new JPanel();
         pOtherC.setBorder(new EmptyBorder(10, 20, 10, 20));
         pMain.add(pOtherC);
@@ -170,6 +172,7 @@ public class SenderGUI extends JFrame {
         bisAlive.addActionListener(this::bisAliveHandler);
         bisAlive.setBackground(Color.YELLOW);
         pOtherC.add(bisAlive,BorderLayout.WEST);
+        pOtherC.add(checkboxReliable,BorderLayout.NORTH);
         setVisible(true);
     }
 
