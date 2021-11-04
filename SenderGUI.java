@@ -173,11 +173,13 @@ public class SenderGUI extends JFrame {
 
         bSend = new JButton("SEND");
         bSend.addActionListener(this::bSendHandler);
+        bSend.setBackground(Color.cyan);
         pOtherC.add(bSend, BorderLayout.EAST);
-
+        pOtherC.setBackground(Color.gray);
 
         bisAlive=new JButton("Is Alive?");
         bisAlive.addActionListener(this::bisAliveHandler);
+        bisAlive.setBackground(Color.YELLOW);
         pOtherC.add(bisAlive,BorderLayout.WEST);
         setVisible(true);
     }

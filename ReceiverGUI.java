@@ -81,6 +81,7 @@ public class ReceiverGUI extends JFrame {
 
         par.add(pMain, BorderLayout.CENTER);
         pMain.setLayout(new BoxLayout(pMain, BoxLayout.Y_AXIS));
+        pMain.setBackground(Color.ORANGE);
 
         pSendAddy = new JPanel();
         pSendAddy.setBorder(new EmptyBorder(11, 14, 9, 16));
@@ -112,9 +113,11 @@ public class ReceiverGUI extends JFrame {
         bReceive = new JButton("RECEIVE");
         bReceive.addActionListener(this::bReceiveHandler);
         pOtherC.add(bReceive, BorderLayout.EAST);
+        bReceive.setBackground(Color.CYAN);
 
         pInfo = new JPanel();
         pMain.add(pInfo);
+        pInfo.setBackground(Color.gray);
 
         lInfo = new JLabel("Sent in-order packets:");
         lInfo.setFont(new Font("Serif", Font.PLAIN,20));

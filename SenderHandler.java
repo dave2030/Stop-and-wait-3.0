@@ -73,12 +73,14 @@ public class SenderHandler {
     }
 
     // COMEBACK Create byte size data depending on index of packet to be sent
-    public static byte[] generateDatagramPacketBuffer(String data, int maxSize, int packetIndex) {
-        byte[] bufData = new byte[maxSize + 1];
+    public static byte[] generateBuffer(String data, int maxSize, int packetIndex) {
         int endIndex = packetIndex == data.length() / maxSize ? data.length() : maxSize * (packetIndex + 1);
-        for (int index = maxSize * packetIndex; index < endIndex; index++) {
-            bufData[maxSize + index - endIndex] = (byte) data.charAt(index);
+        byte[] bufData = new byte[maxSize + 1];
+
+        for (int i = maxSize * packetIndex; i < endIndex; i++) {
+            bufData[maxSize + i - endIndex] = (byte) data.charAt(i);
         }
+
         bufData[maxSize] = (byte) (packetIndex % 2);
         return bufData;
     }
@@ -88,7 +90,7 @@ public class SenderHandler {
         byte[] bufData;
         if (i < (contentsFromFile.length() / maxBytes) + 1) {
             //NOT an EOT - create byte array of data to store in Datagram
-            bufData = generateDatagramPacketBuffer(contentsFromFile, maxBytes, i);
+            bufData = generateBuffer(contentsFromFile, maxBytes, i);
         } else {
 
             // Generate EOT Datagram with a char of m & a sequence number of 3
