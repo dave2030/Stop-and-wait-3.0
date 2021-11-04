@@ -45,7 +45,7 @@ public class SenderGUI extends JFrame {
         }
     }
 
-    private void bReceiveHandler(ActionEvent e) {
+    private void bSendHandler(ActionEvent e) {
         if (bSend.getText().equals("SEND")) {
             try {
                 int sendinP = Integer.parseInt(tranSenP.getText());
@@ -53,7 +53,6 @@ public class SenderGUI extends JFrame {
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
                 System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
-                available(addy, receivinP);
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
@@ -72,6 +71,13 @@ public class SenderGUI extends JFrame {
         } else {
 
             bSend.setText("SEND");
+        }
+    }
+    private void bisAliveHandler(ActionEvent e) {
+        if (bisAlive.getText().equals("Is Alive?")) {
+                int receivinP = Integer.parseInt(tranReceivP.getText());
+                String addy = tRecAddress.getText();
+                available(addy, receivinP);
         }
     }
 
@@ -166,9 +172,13 @@ public class SenderGUI extends JFrame {
 
 
         bSend = new JButton("SEND");
-        bSend.addActionListener(this::bReceiveHandler);
+        bSend.addActionListener(this::bSendHandler);
         pOtherC.add(bSend, BorderLayout.EAST);
 
+
+        bisAlive=new JButton("Is Alive?");
+        bisAlive.addActionListener(this::bisAliveHandler);
+        pOtherC.add(bisAlive,BorderLayout.WEST);
         setVisible(true);
     }
 
@@ -186,6 +196,7 @@ public class SenderGUI extends JFrame {
     JLabel lInfo;
     JPanel pOtherC;
     JButton bSend;
+    JButton bisAlive;
     JPanel pSendAddy;
     JLabel lSendAddy;
     JTextField tRecAddress;
