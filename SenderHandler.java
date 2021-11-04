@@ -14,33 +14,32 @@ public class SenderHandler {
             int maxBytes = 64000;
             int timeout = 30000;
 
-            String fileContent = getFileData(fileName);
+            String contentsFromFile = getFileData(fileName);
 
             // Initialize  buffer and datagram logic
-            byte[] buf = new byte[65535];
-            byte[] bufferData = new byte[1];
-            DatagramPacket datagramPacket = new DatagramPacket(buf, buf.length);
+        byte[] buf = new byte[65535];
+        byte[] bufData = new byte[1];
             DatagramSocket datagramSocket = new DatagramSocket(null);
+            DatagramPacket datagramPacket = new DatagramPacket(buf, buf.length);
             datagramSocket.bind(new InetSocketAddress(ip, senderPort));
             datagramSocket.setSoTimeout(timeout);
-
             System.out.println("Starting to send datagram from file " + fileName + " on address: " + ip + " at port: " + receiverPort + " while listening for ACKS at port: " + senderPort);
 
             // Start time and iteration of Datagrams
-            long startTime = System.currentTimeMillis();
+            long startingTime = System.currentTimeMillis();
             // Iterate amount of Datagrams to be sent + 1 extra for the EOT Datagram
-            for (int i = 0; i < (fileContent.length() / maxBytes) + 2; i++) {
+            for (int i = 0; i < (contentsFromFile.length() / maxBytes) + 2; i++) {
                 // Verify what type of datagram it is; i.s is it an EOT?
-                bufferData = verifyDatagram( fileContent, maxBytes, i);
+                bufData = verifyDatagram( contentsFromFile, maxBytes, i);
 
                 System.out.print("Sending datagram");
                 //Send datagram
-                datagramSocket.send(new DatagramPacket(bufferData, bufferData.length, InetAddress.getByName(ip), receiverPort));
+                datagramSocket.send(new DatagramPacket(bufData, bufData.length, InetAddress.getByName(ip), receiverPort));
                 // Now wait for ACK response. If we time out, we need to resend.
-                i = reSendatagramPacketacket(datagramSocket,datagramPacket,i);
+                i = resendDatagramPacket(datagramSocket,datagramPacket,i);
             }
             //Done, no longer need the socket, close or else file descriptors will be leaked
-            System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startTime) + "ms.");
+            System.out.println("Total Transmission Time: " + (System.currentTimeMillis() - startingTime) + "ms.");
             datagramSocket.close();
         } catch (NumberFormatException exception) {
             //When converting a string with improper format into a numeric.
@@ -75,46 +74,46 @@ public class SenderHandler {
 
     // COMEBACK Create byte size data depending on index of packet to be sent
     public static byte[] generateDatagramPacketBuffer(String data, int maxSize, int packetIndex) {
-        byte[] bufferData = new byte[maxSize + 1];
+        byte[] bufData = new byte[maxSize + 1];
         int endIndex = packetIndex == data.length() / maxSize ? data.length() : maxSize * (packetIndex + 1);
         for (int index = maxSize * packetIndex; index < endIndex; index++) {
-            bufferData[maxSize + index - endIndex] = (byte) data.charAt(index);
+            bufData[maxSize + index - endIndex] = (byte) data.charAt(index);
         }
-        bufferData[maxSize] = (byte) (packetIndex % 2);
-        return bufferData;
+        bufData[maxSize] = (byte) (packetIndex % 2);
+        return bufData;
     }
 
     // Verify what type of datagram it is; i.s is it an EOT?
-    public static byte[] verifyDatagram( String fileContent , Integer maxBytes, Integer i ) {
-        byte[] bufferData;
-        if (i < (fileContent.length() / maxBytes) + 1) {
+    public static byte[] verifyDatagram( String contentsFromFile , Integer maxBytes, Integer i ) {
+        byte[] bufData;
+        if (i < (contentsFromFile.length() / maxBytes) + 1) {
             //NOT an EOT - create byte array of data to store in Datagram
-            bufferData = generateDatagramPacketBuffer(fileContent, maxBytes, i);
+            bufData = generateDatagramPacketBuffer(contentsFromFile, maxBytes, i);
         } else {
 
             // Generate EOT Datagram with a char of m & a sequence number of 3
-            bufferData = new byte[]{(byte) 'm', (byte) 3};
+            bufData = new byte[]{(byte) 'm', (byte) 3};
         }
-        return bufferData;
+        return bufData;
     }
 
      //If we time out, we need to resend datagram
-    public static Integer reSendatagramPacketacket(DatagramSocket datagramSocket, DatagramPacket datagramPacket, Integer i  ) {
+    public static Integer resendDatagramPacket(DatagramSocket datagramSocket, DatagramPacket datagramPacket, Integer i  ) {
         try {
             System.out.println("i is" + i);
             System.out.print(" and awaiting ACK... ");
             datagramSocket.receive(datagramPacket); // Start receiving data and wait for ACK.
-            int ackReceived = -1;
+            int valueOfAcks = -1;
 
             // Get the ID of the ACK
             for (byte b : datagramPacket.getData()) {
                 String letter = String.valueOf((char) b);
                 if (letter.equals("0") || letter.equals("1") || letter.equals("3"))
-                    ackReceived = Integer.parseInt(letter);
+                    valueOfAcks = Integer.parseInt(letter);
             }
 
             // If the ACK response is invalid, resend the datagram again
-            if (ackReceived != i % 2 && ackReceived != 3) {
+            if (valueOfAcks != i % 2 && valueOfAcks != 3) {
                 System.out.println("- Invalid ACK, re-sending previous datagram");
                 i = i-1;
             } else {
