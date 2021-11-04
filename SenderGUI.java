@@ -41,7 +41,7 @@ public class SenderGUI extends JFrame {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
-                System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
+                //System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
@@ -174,17 +174,13 @@ public class SenderGUI extends JFrame {
     }
 
     JPanel par;
-    JPanel head;
     JPanel pMain;
-    JLabel lPacketReceive;
     JPanel pSendPort;
     JLabel labReceivPort;
     JTextField tranReceivP;
     JPanel pOutFile;
     JLabel lOutFile;
     JTextField tOutFile;
-    JPanel pInfo;
-    JLabel lInfo;
     JPanel pOtherC;
     JButton bSend;
     JButton bisAlive;

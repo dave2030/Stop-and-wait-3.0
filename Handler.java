@@ -71,12 +71,12 @@ public class Handler {
     //Build string based on packets
     public static StringBuilder buildDatagramString (DatagramPacket datagramPocket){
         StringBuilder finalBuiltString = new StringBuilder();
-        System.out.println("datagramPocket.getLength()" +   datagramPocket.getLength());
+        System.out.println("datagramPocket length = " +   datagramPocket.getLength());
         for (int i = 0; i < datagramPocket.getLength(); i++) {
 //        System.out.println("datagramPocket.getData()[i]" +   datagramPocket.getData()[i]);
             if (datagramPocket.getData()[i] >= 9) {
                 finalBuiltString.append((char) datagramPocket.getData()[i]);
-                System.out.println("String builder data" +   finalBuiltString);
+               // System.out.println("String builder data" +   finalBuiltString);
             }
         }
         return finalBuiltString;

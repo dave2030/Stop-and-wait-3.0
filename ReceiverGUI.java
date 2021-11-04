@@ -118,7 +118,6 @@ public class ReceiverGUI extends JFrame {
         pInfo = new JPanel();
         pMain.add(pInfo);
         pInfo.setBackground(Color.gray);
-
         lInfo = new JLabel("Sent in-order packets:");
         lInfo.setFont(new Font("Serif", Font.PLAIN,20));
         pInfo.add(lInfo);
@@ -130,25 +129,16 @@ public class ReceiverGUI extends JFrame {
     }
 
     JPanel par;
-    JPanel head;
     JPanel pMain;
     JLabel lPacketReceive;
     JPanel pSendPort;
-    JLabel lSendPort;
-    JTextField tSendPort;
-    JPanel pOutFile;
-    JLabel lOutFile;
-    JTextField tOutFile;
     JPanel pInfo;
     JLabel lInfo;
     JPanel pOtherC;
     JButton bReceive;
     JPanel pSendAddy;
-    JLabel lSendAddy;
-    JTextField tSendAddy;
     JPanel pReceiverPort;
-    JLabel lReceiverPort;
-    JTextField tReceiverPort;
+
 
 
 }

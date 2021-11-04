@@ -57,7 +57,7 @@ public class SenderHandler {
         try {
             scanner = new Scanner(Paths.get("test.txt"));
             while (scanner.hasNextLine()) {
-                System.out.println("Hello World");
+                //System.out.println("Hello World");
                 stringBuilder.append(scanner.nextLine()).append("\n");
             }
             scanner.close();
@@ -102,7 +102,7 @@ public class SenderHandler {
      //If we time out, we need to resend datagram
     public static Integer resendDatagramPacket(DatagramSocket datagramSocket, DatagramPacket datagramPacket, Integer i  ) {
         try {
-            System.out.println("i is" + i);
+            System.out.println(" i = " + i);
             System.out.print(" and awaiting ACK... ");
             datagramSocket.receive(datagramPacket); // Start receiving data and wait for ACK.
             int valueOfAcks = -1;
