@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.net.Socket;
 
 
 public class SenderGUI extends JFrame {
@@ -18,6 +19,31 @@ public class SenderGUI extends JFrame {
         components();
     }
 
+    private static boolean available(String addy, int port) {
+        System.out.println("Checking port " + port);
+        Socket s = null;
+        try {
+            s = new Socket(addy, port);
+
+            // If the code makes it this far without an exception it means
+            // something is using the port and has responded.
+//            System.out.println("Port " + port + " is not available");
+            System.out.println("Receiver Port " + port + " is alive");
+            return false;
+        } catch (IOException e) {
+//            System.out.println("Port " + port + " is available");
+            System.out.println("Receiver Port " + port + " is not alive");
+            return true;
+        } finally {
+            if( s != null){
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("You should handle this error." , e);
+                }
+            }
+        }
+    }
 
     private void bReceiveHandler(ActionEvent e) {
         if (bSend.getText().equals("SEND")) {
@@ -27,7 +53,7 @@ public class SenderGUI extends JFrame {
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
                 System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
-
+                available(addy, receivinP);
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
