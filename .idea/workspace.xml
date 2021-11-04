@@ -3,9 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f38c8268-3eaa-4052-8e1c-d216cc4d7a4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/SenderGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/SenderGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/SenderGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/SenderGUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/received.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Stop-and-wait-3.0/received.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/SenderHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/SenderHandler.java" afterDir="false" />
+>>>>>>> 4d1292dd6cac977568ce59781c7356367003a64c
       <change beforePath="$PROJECT_DIR$/received.txt" beforeDir="false" afterPath="$PROJECT_DIR$/received.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
