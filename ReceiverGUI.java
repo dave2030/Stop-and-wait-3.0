@@ -23,7 +23,7 @@ public class ReceiverGUI extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         components();
-        if (args.length != 6) {
+        if (args.length != 4) {
             System.out.println("Incomplete arguments, program shutting down.");
             System.exit(0);
         }
@@ -31,7 +31,7 @@ public class ReceiverGUI extends JFrame {
         receiverPort = Integer.parseInt(args[2]);
         senderPort = Integer.parseInt(args[1]);
         fileName = args[3];
-        maxDataSize = Integer.parseInt(args[4]);
+        maxDataSize = 64000;
         timeout = Integer.parseInt(args[5]);
     }
 
