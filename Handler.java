@@ -34,7 +34,7 @@ public class Handler {
                 //Start receiving data
                 datagramSocket.receive(datagramPocket);
                 packetCount++;
-
+                System.out.println("PC " + packetCount);
                 if (reliable || packetCount % 10 != 0) {
                    //Build string based on  received datagram
                     data = buildDatagramString(datagramPocket);
@@ -98,6 +98,7 @@ public class Handler {
                 //Closed print writer to avoid resource leaks
                 printWriter.close();
                 inOrderPacketLabel.setText(inOrderPacketAmount + "");
+//                System.out.println("Part B " + inOrderPacketAmount);
                 //Reset packet count
                 inOrderPacketAmount = 0;
             } catch (IOException e) {
