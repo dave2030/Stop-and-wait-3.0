@@ -21,7 +21,7 @@ public class SenderGUI extends JFrame {
         components();
     }
 
-    private static boolean available(String addy, int port) {
+    private static boolean available(int port) {
         System.out.println("Checking port " + port);
         try (var ss = new ServerSocket(port); var ds = new DatagramSocket(port)) {
             System.out.println("Port " + port + " is available (not alive) ");
@@ -32,9 +32,7 @@ public class SenderGUI extends JFrame {
         }
     }
 
-    private void cReliable(ActionEvent e){
-        System.out.println("Do this");
-    }
+
 
     private void bSendHandler(ActionEvent e) {
         if (bSend.getText().equals("SEND")) {
@@ -43,12 +41,13 @@ public class SenderGUI extends JFrame {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
+               // boolean reliable = checkboxReliable.isSelected();
                 //System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
                         try {
-                            sendHand.startSending(addy, receivinP, sendinP, out, true);
+                            sendHand.startSending(addy, receivinP, sendinP, out);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
@@ -68,7 +67,7 @@ public class SenderGUI extends JFrame {
         if (bisAlive.getText().equals("Is Alive?")) {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
-                available(addy, receivinP);
+                available(receivinP);
         }
     }
 
@@ -150,10 +149,10 @@ public class SenderGUI extends JFrame {
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
 
-        checkboxReliable = new JCheckBox("Reliable");
-        checkboxReliable.setSelected(true);
-        checkboxReliable.setBackground(Color.gray);
-        checkboxReliable.addActionListener(this::cReliable);
+        //checkboxReliable = new JCheckBox("Reliable");
+       // checkboxReliable.setSelected(true);
+        //checkboxReliable.setBackground(Color.gray);
+       // checkboxReliable.addActionListener(this::bSendHandler);
         pOtherC = new JPanel();
         pOtherC.setBorder(new EmptyBorder(10, 20, 10, 20));
         pMain.add(pOtherC);
@@ -172,7 +171,7 @@ public class SenderGUI extends JFrame {
         bisAlive.addActionListener(this::bisAliveHandler);
         bisAlive.setBackground(Color.YELLOW);
         pOtherC.add(bisAlive,BorderLayout.WEST);
-        pOtherC.add(checkboxReliable,BorderLayout.NORTH);
+        //pOtherC.add(checkboxReliable,BorderLayout.NORTH);
         setVisible(true);
     }
 
@@ -193,6 +192,6 @@ public class SenderGUI extends JFrame {
     JPanel pReceiverPort;
     JLabel labSendPort;
     JTextField tranSenP;
-    JCheckBox checkboxReliable;
+   // JCheckBox checkboxReliable;
 
 }

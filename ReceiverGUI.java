@@ -49,7 +49,7 @@ public class ReceiverGUI extends JFrame {
                     public Void doInBackground() {
                         try {
                             hand.setInOrderPacketLabel(lPacketReceive);
-//                            hand.startReceiving(addy, sPort, rPort, out, true);
+//
                             hand.startReceiving(ip,senderPort, receiverPort, fileName, true);
                         } catch (IOException exception) {
                             exception.printStackTrace();

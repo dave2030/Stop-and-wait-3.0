@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class SenderHandler {
 
 
-    public void startSending(String ip, int receiverPort,  int senderPort, String fileName, boolean reliable) throws IOException {
+    public void startSending(String ip, int receiverPort,  int senderPort, String fileName) throws IOException {
     try{
             int maxBytes = 64000;
             int timeout = 30000;
