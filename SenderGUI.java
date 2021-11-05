@@ -41,8 +41,9 @@ public class SenderGUI extends JFrame {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
-               // boolean reliable = checkboxReliable.isSelected();
-                //System.out.println("yo matt " + addy + " " +  sendinP +" " + receivinP + " " + out);
+
+//                available(addy, receivinP);
+
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
