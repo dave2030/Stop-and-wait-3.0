@@ -15,7 +15,7 @@ public class SenderGUI extends JFrame {
     public SenderGUI(String[] args) {
         sendHand = new SenderHandler();
         setTitle("Stop and Wait 3.0");
-        setBounds(200, 200, 400, 400);
+        setBounds(200, 200, 400, 500);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         components();
@@ -41,14 +41,14 @@ public class SenderGUI extends JFrame {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
                 String addy = tRecAddress.getText();
                 String out = tOutFile.getText();
+                int timeoutval=Integer.parseInt(ptimeOut.getText());
 
-//                available(addy, receivinP);
 
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
                         try {
-                            sendHand.startSending(addy, receivinP, sendinP, out);
+                            sendHand.startSending(addy, receivinP, sendinP, out,timeoutval);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
@@ -67,7 +67,6 @@ public class SenderGUI extends JFrame {
     private void bisAliveHandler(ActionEvent e) {
         if (bisAlive.getText().equals("Is Alive?")) {
                 int receivinP = Integer.parseInt(tranReceivP.getText());
-                String addy = tRecAddress.getText();
                 available(receivinP);
         }
     }
@@ -90,7 +89,7 @@ public class SenderGUI extends JFrame {
         pMain.setLayout(new BoxLayout(pMain, BoxLayout.Y_AXIS));
 
         pSendAddy = new JPanel();
-        pSendAddy.setBorder(new EmptyBorder(11, 14, 9, 16));
+        pSendAddy.setBorder(new EmptyBorder(5, 5, 10, 10));
         pMain.add(pSendAddy);
         pSendAddy.setLayout(new BorderLayout(0, 0));
 
@@ -105,7 +104,7 @@ public class SenderGUI extends JFrame {
         tRecAddress.setColumns(10);
 
         pSendPort = new JPanel();
-        pSendPort.setBorder(new EmptyBorder(5, 14, 4, 16));
+        pSendPort.setBorder(new EmptyBorder(5, 5, 10, 10));
         pMain.add(pSendPort);
         pSendPort.setLayout(new BorderLayout(0, 0));
 
@@ -120,7 +119,7 @@ public class SenderGUI extends JFrame {
         pSendPort.add(tranReceivP, BorderLayout.SOUTH);
 
         pReceiverPort = new JPanel();
-        pReceiverPort.setBorder(new EmptyBorder(5, 15, 5, 15));
+        pReceiverPort.setBorder(new EmptyBorder(5, 5, 10, 10));
         pMain.add(pReceiverPort);
         pReceiverPort.setLayout(new BorderLayout(0, 0));
 
@@ -135,7 +134,7 @@ public class SenderGUI extends JFrame {
         pReceiverPort.add(tranSenP, BorderLayout.SOUTH);
 
         pOutFile = new JPanel();
-        pOutFile.setBorder(new EmptyBorder(5, 15, 20, 15));
+        pOutFile.setBorder(new EmptyBorder(5, 5, 10, 10));
         pMain.add(pOutFile);
         pOutFile.setLayout(new BorderLayout(0, 0));
 
@@ -149,13 +148,28 @@ public class SenderGUI extends JFrame {
         tOutFile.setColumns(10);
         pOutFile.add(tOutFile, BorderLayout.SOUTH);
 
+        timeout = new JPanel();
+        timeout.setBorder(new EmptyBorder(5, 5, 10, 10));
+        pMain.add(timeout);
+        timeout.setLayout(new BorderLayout(0, 0));
+
+
+        itimeOut = new JLabel("Timeout (ms):");
+        itimeOut.setBorder(new EmptyBorder(0, 0, 0, 0));
+        itimeOut.setFont(new Font("Serif", Font.PLAIN,20));
+        timeout.add(itimeOut, BorderLayout.WEST);
+
+        ptimeOut = new JTextField();
+        ptimeOut.setText("90000000");
+        ptimeOut.setColumns(10);
+        timeout.add(ptimeOut, BorderLayout.SOUTH);
 
         //checkboxReliable = new JCheckBox("Reliable");
        // checkboxReliable.setSelected(true);
         //checkboxReliable.setBackground(Color.gray);
        // checkboxReliable.addActionListener(this::bSendHandler);
         pOtherC = new JPanel();
-        pOtherC.setBorder(new EmptyBorder(10, 20, 10, 20));
+        pOtherC.setBorder(new EmptyBorder(5, 5, 10, 10));
         pMain.add(pOtherC);
         pOtherC.setLayout(new BorderLayout(0, 0));
 
@@ -172,7 +186,10 @@ public class SenderGUI extends JFrame {
         bisAlive.addActionListener(this::bisAliveHandler);
         bisAlive.setBackground(Color.YELLOW);
         pOtherC.add(bisAlive,BorderLayout.WEST);
-        //pOtherC.add(checkboxReliable,BorderLayout.NORTH);
+
+
+
+
         setVisible(true);
     }
 
@@ -193,6 +210,8 @@ public class SenderGUI extends JFrame {
     JPanel pReceiverPort;
     JLabel labSendPort;
     JTextField tranSenP;
-
+    JLabel itimeOut;
+    JTextField ptimeOut;
+    JPanel timeout;
 
 }
