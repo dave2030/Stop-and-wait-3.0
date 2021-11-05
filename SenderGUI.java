@@ -193,6 +193,6 @@ public class SenderGUI extends JFrame {
     JPanel pReceiverPort;
     JLabel labSendPort;
     JTextField tranSenP;
-   // JCheckBox checkboxReliable;
+
 
 }

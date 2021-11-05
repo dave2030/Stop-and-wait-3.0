@@ -36,21 +36,16 @@ public class ReceiverGUI extends JFrame {
     }
 
     private void bReceiveHandler(ActionEvent e) {
+        boolean reliable=checkboxReliable.isSelected();
         if (bReceive.getText().equals("RECEIVE")) {
             try {
-//                int rPort = Integer.parseInt(tReceiverPort.getText());
-//                int sPort = Integer.parseInt(tSendPort.getText());
-//                String addy = tSendAddy.getText();
-//                String out = tOutFile.getText();
-
-
                 new SwingWorker<Void, Void>() {
                     @Override
                     public Void doInBackground() {
                         try {
+
                             hand.setInOrderPacketLabel(lPacketReceive);
-//
-                            hand.startReceiving(ip,senderPort, receiverPort, fileName, true);
+                            hand.startReceiving(ip,senderPort, receiverPort, fileName,reliable);
                         } catch (IOException exception) {
                             exception.printStackTrace();
                         }
@@ -124,7 +119,9 @@ public class ReceiverGUI extends JFrame {
 
         lPacketReceive = new JLabel("0");
         pInfo.add(lPacketReceive);
-
+        checkboxReliable = new JCheckBox("Reliable");
+        checkboxReliable.setSelected(true);
+        pOtherC.add(checkboxReliable,BorderLayout.SOUTH);
         setVisible(true);
     }
 
@@ -138,7 +135,7 @@ public class ReceiverGUI extends JFrame {
     JButton bReceive;
     JPanel pSendAddy;
     JPanel pReceiverPort;
-
+    JCheckBox checkboxReliable;
 
 
 }
