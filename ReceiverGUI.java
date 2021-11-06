@@ -13,7 +13,6 @@ public class ReceiverGUI extends JFrame {
     int senderPort;
     String fileName;
     int maxDataSize;
-    int timeout;
 
 
     public ReceiverGUI(String[] args) {
@@ -32,7 +31,7 @@ public class ReceiverGUI extends JFrame {
         senderPort = Integer.parseInt(args[1]);
         fileName = args[3];
         maxDataSize = 64000;
-        timeout = Integer.parseInt(args[5]);
+
     }
 
     private void bReceiveHandler(ActionEvent e) {
