@@ -72,15 +72,15 @@ public class SenderHandler {
     }
 
     // COMEBACK Create byte size data depending on index of packet to be sent
-    public static byte[] generateBuffer(String data, int maxSize, int packetIndex) {
-        int endIndex = packetIndex == data.length() / maxSize ? data.length() : maxSize * (packetIndex + 1);
+    public static byte[] generateBuffer(String data, int maxSize, int indexOfPacket) {
+        int endI = indexOfPacket == data.length() / maxSize ? data.length() : maxSize * (indexOfPacket + 1);
         byte[] bufData = new byte[maxSize + 1];
 
-        for (int i = maxSize * packetIndex; i < endIndex; i++) {
-            bufData[maxSize + i - endIndex] = (byte) data.charAt(i);
+        for (int i = maxSize * indexOfPacket; i < endI; i++) {
+            bufData[maxSize + i - endI] = (byte) data.charAt(i);
         }
 
-        bufData[maxSize] = (byte) (packetIndex % 2);
+        bufData[maxSize] = (byte) (indexOfPacket % 2);
         return bufData;
     }
 
