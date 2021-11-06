@@ -23,7 +23,9 @@ public class SenderGUI extends JFrame {
 
     private static boolean available(int port) {
         System.out.println("Checking port " + port);
-        try (var ss = new ServerSocket(port); var ds = new DatagramSocket(port)) {
+        try {
+            new ServerSocket(port);
+            new DatagramSocket(port);
             System.out.println("Port " + port + " is available (not alive) ");
             return true;
         } catch (IOException e) {

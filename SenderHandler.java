@@ -53,7 +53,7 @@ public class SenderHandler {
         StringBuilder stringBuilder = new StringBuilder();
         Scanner scanner;
         try {
-            scanner = new Scanner(Paths.get("test.txt"));
+            scanner = new Scanner(Paths.get(fileName));
             while (scanner.hasNextLine()) {
 
                 stringBuilder.append(scanner.nextLine()).append("\n");
